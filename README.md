@@ -1,3 +1,5 @@
+![demo](demo.gif)
+
 # Snake
 
 The classic SNAKE game implemented in C.
