@@ -143,9 +143,9 @@ int main(void)
 
     if (snake_overlaps_itself(snake))
     {
+      printf("Oh, oh... you died with a score of %d/%d.\n", snake->tail_size, MAX_TAIL_SIZE);
       snake_free(snake);
       food_free(food);
-      printf("Oh, oh... you died with a score of %d/%d.\n", snake->tail_size, MAX_TAIL_SIZE);
       break;
     }
 
