@@ -52,9 +52,9 @@ void *get_input_char_thread(void *arg)
 
 void draw_board(struct snake *snake, struct food *food)
 {
-  for (int y = 0; y < GAME_HEIGHT; y++)
+  for (unsigned int y = 0; y < GAME_HEIGHT; y++)
   {
-    for (int x = 0; x < GAME_WIDTH; x++)
+    for (unsigned int x = 0; x < GAME_WIDTH; x++)
     {
       if (x == 0 || x == GAME_WIDTH - 1)
         printf("|"); // vertical borders

@@ -35,7 +35,7 @@ bool snake_eat(struct snake *snake, struct food *food) {
 void snake_move(struct snake *snake) {
   if (snake->tail_size > 0)
   {
-    for (int i = 0; i < snake->tail_size - 1; i++) {
+    for (unsigned int i = 0; i < snake->tail_size - 1; i++) {
       snake->tail[i][0] = snake->tail[i + 1][0];
       snake->tail[i][1] = snake->tail[i + 1][1];
     }
@@ -62,7 +62,7 @@ bool snake_is_tail_piece(struct snake *snake, int x, int y) {
   if (snake->tail_size == 0)
     return false;
 
-  for (int i = 0; i < snake->tail_size; i++) {
+  for (unsigned int i = 0; i < snake->tail_size; i++) {
     if (snake->tail[i][0] == x && snake->tail[i][1] == y)
       return true;
   }
@@ -77,7 +77,7 @@ void snake_direction(struct snake *snake, int xspeed, int yspeed) {
 
 bool snake_overlaps_itself(struct snake *snake)
 {
-  for (int i = 0; i < snake->tail_size; i++)
+  for (unsigned int i = 0; i < snake->tail_size; i++)
   {
     if (snake->tail[i][0] == snake->x && snake->tail[i][1] == snake->y)
       return true;
@@ -88,7 +88,7 @@ bool snake_overlaps_itself(struct snake *snake)
 
 void snake_free(struct snake *snake)
 {
-  for (int i = 0; i < snake->tail_size; i++)
+  for (unsigned int i = 0; i < snake->tail_size; i++)
     free(snake->tail[i]);
 
   free(snake->tail);
