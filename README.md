@@ -7,4 +7,4 @@ The classic SNAKE game implemented in C.
 - `$ git clone https://github.com/kkoomen/snake.git && cd snake`
 - `$ make`
 
-Then simply run `./snake` and enjoy!
+Then simply run `./snake.out` and enjoy!
