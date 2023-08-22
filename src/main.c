@@ -63,7 +63,7 @@ void draw_board(struct snake *snake, struct food *food)
       else if ((x == snake->x && y == snake->y) || snake_is_tail_piece(snake, x, y))
         printf("#"); // snake marker
       else if (x == food->x && y == food->y)
-        printf("\u25A0"); // food marker
+        printf("@"); // food marker
       else
         printf(" "); // print spaces for alignment
     }
@@ -122,7 +122,6 @@ int main(void)
     term_clear();
     printf("SCORE: %d/%d\n", snake->tail_size, MAX_TAIL_SIZE);
 
-    // draw the board frame
     draw_board(snake, food);
 
     if (snake->tail_size == MAX_TAIL_SIZE)

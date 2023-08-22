@@ -12,8 +12,8 @@ struct snake *snake_init() {
   snake->yspeed = 0;
   snake->tail_size = 0;
 
-  // 10 pairs of [x,y] are stored
-  snake->tail = (int **)malloc(20 * sizeof(int *));
+  // n-pairs of [x,y] will be stored
+  snake->tail = (int **)malloc((MAX_TAIL_SIZE * 2) * sizeof(int *));
 
   return snake;
 }
