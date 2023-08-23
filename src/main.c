@@ -81,7 +81,7 @@ void draw_board(struct snake *snake, struct food *food)
       else if (snake_is_tail_piece(snake, x, y))
         printf("\u2022"); // snake tail marker
       else if (x == food->x && y == food->y)
-        printf("\u25AA"); // food marker
+        printf("\033[31m\u2022\033[0m"); // food marker
       else
         printf(" "); // print spaces for alignment
 
