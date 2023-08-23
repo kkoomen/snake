@@ -7,6 +7,6 @@ The classic SNAKE game implemented in C.
 # Getting Started
 
 - `$ git clone https://github.com/kkoomen/snake.git && cd snake`
-- `$ make`
+- `$ sudo make install`
 
-Then simply run `./snake.out` and enjoy!
+Then simply run `snake` in your terminal and enjoy!
