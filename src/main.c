@@ -55,16 +55,56 @@ void draw_board(struct snake *snake, struct food *food)
   {
     for (unsigned int x = 0; x < GAME_WIDTH; x++)
     {
-      if (x == 0 || x == GAME_WIDTH - 1)
-        printf("|"); // vertical borders
+      if (x == 0 && y == 0)
+        printf("\u250C"); // top left corner
+      else if (x == GAME_WIDTH - 1 && y == 0)
+        printf("\u2510"); // top right corner
+      else if (x == GAME_WIDTH - 1 && y == GAME_HEIGHT - 1)
+        printf("\u2518"); // bottom right corner
+      else if (x == 0 && y == GAME_HEIGHT - 1)
+        printf("\u2514"); // bottom left corner
       else if (y == 0 || y == GAME_HEIGHT - 1)
-        printf("-"); // horizontal borders
-      else if ((x == snake->x && y == snake->y) || snake_is_tail_piece(snake, x, y))
-        printf("#"); // snake marker
+        printf("\u2500"); // horizontal borders
+      else if (x == 0 || x == GAME_WIDTH - 1)
+        printf("\u2502"); // vertical borders
+      else if ((x == snake->x && y == snake->y)) {
+        // snake head marker
+        if (snake->xspeed == 1)
+          printf(">"); // moving right
+        else if (snake->xspeed == -1)
+          printf("<"); // moving left
+        else if (snake->yspeed == 1)
+          printf("v"); // moving down
+        else if (snake->yspeed == -1)
+          printf("^"); // moving up
+      }
+      else if (snake_is_tail_piece(snake, x, y))
+        printf("\u2022"); // snake tail marker
       else if (x == food->x && y == food->y)
-        printf("@"); // food marker
+        printf("\u25AA"); // food marker
       else
         printf(" "); // print spaces for alignment
+
+      if (x == GAME_WIDTH - 1) {
+        if (y == 1)
+          printf("  ███████ ███    ██  █████  ██   ██ ███████ ");
+        if (y == 2)
+          printf("  ██      ████   ██ ██   ██ ██  ██  ██      ");
+        if (y == 3)
+          printf("  ███████ ██ ██  ██ ███████ █████   █████   ");
+        if (y == 4)
+          printf("       ██ ██  ██ ██ ██   ██ ██  ██  ██      ");
+        if (y == 5)
+          printf("  ███████ ██   ████ ██   ██ ██   ██ ███████ ");
+        if (y == 7)
+          printf("  Made by Kim 金可明");
+        if (y == 8)
+          printf("  https://github.com/kkoomen/snake");
+
+        if (y == GAME_HEIGHT - 2)
+          printf("  Score: %d/%d", snake->tail_size, MAX_TAIL_SIZE);
+      }
+
     }
     // print newline for each row
     printf("\n");
@@ -117,7 +157,6 @@ int main(void)
   while (1)
   {
     term_clear();
-    printf("SCORE: %d/%d\n", snake->tail_size, MAX_TAIL_SIZE);
 
     draw_board(snake, food);
 
