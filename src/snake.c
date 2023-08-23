@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "include/snake.h"
 #include "include/constants.h"
+#include "include/snake.h"
 
-struct snake *snake_init() {
+struct snake *snake_init()
+{
   struct snake *snake = calloc(1, sizeof(struct snake));
   snake->x = 1;
   snake->y = 1;
@@ -18,7 +19,8 @@ struct snake *snake_init() {
   return snake;
 }
 
-bool snake_eat(struct snake *snake, struct food *food) {
+bool snake_eat(struct snake *snake, struct food *food)
+{
   if (snake->x == food->x && snake->y == food->y) {
     int *tail_piece = (int *)malloc(2 * sizeof(int));
     tail_piece[0] = snake->x;
@@ -33,8 +35,7 @@ bool snake_eat(struct snake *snake, struct food *food) {
 }
 
 void snake_move(struct snake *snake) {
-  if (snake->tail_size > 0)
-  {
+  if (snake->tail_size > 0) {
     for (unsigned int i = 0; i < snake->tail_size - 1; i++) {
       snake->tail[i][0] = snake->tail[i + 1][0];
       snake->tail[i][1] = snake->tail[i + 1][1];
@@ -72,13 +73,11 @@ void snake_direction(struct snake *snake, int xspeed, int yspeed) {
   snake->yspeed = yspeed;
 }
 
-bool snake_overlaps_itself(struct snake *snake)
-{
+bool snake_overlaps_itself(struct snake *snake) {
   return snake_is_tail_piece(snake, snake->x, snake->y);
 }
 
-void snake_free(struct snake *snake)
-{
+void snake_free(struct snake *snake) {
   for (unsigned int i = 0; i < snake->tail_size; i++)
     free(snake->tail[i]);
 

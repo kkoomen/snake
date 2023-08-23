@@ -5,7 +5,8 @@
 #include "include/random.h"
 
 // Generate a number between range [from, to], exclusive.
-int random_number_between(int from, int to) {
+int random_number_between(int from, int to)
+{
   // Use time as the seed
   srand(time(NULL));
 
