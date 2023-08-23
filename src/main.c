@@ -1,11 +1,11 @@
-#include "include/snake.h"
-#include "include/food.h"
-#include "include/constants.h"
-
 #include <unistd.h>
 #include <stdio.h>
 #include <termios.h>
 #include <pthread.h>
+
+#include "include/snake.h"
+#include "include/food.h"
+#include "include/constants.h"
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 

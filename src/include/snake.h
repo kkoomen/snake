@@ -1,7 +1,7 @@
-#include "food.h"
-
 #include <stdbool.h>
 #include <stdlib.h>
+
+#include "food.h"
 
 #ifndef SNAKE_H
 #define SNAKE_H
