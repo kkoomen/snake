@@ -15,7 +15,6 @@ clean:
 	-rm src/*.o
 
 install:
-	make
 	cp snake.out /usr/local/bin/snake
 
 uninstall:
