@@ -7,7 +7,6 @@
 #include <termios.h>
 #include <pthread.h>
 
-
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int input_char = -1;
@@ -104,7 +103,6 @@ void handle_input(int ch, struct snake *snake)
         break;
     }
   }
-
 }
 
 int main(void)
@@ -112,11 +110,10 @@ int main(void)
   struct snake *snake = snake_init();
   struct food *food = food_init();
 
-  int frameCount = 0;
-
   pthread_t thread;
   pthread_create(&thread, NULL, get_input_char_thread, NULL);
 
+  int frameCount = 0;
   while (1)
   {
     term_clear();
@@ -144,13 +141,13 @@ int main(void)
     if (snake_overlaps_itself(snake))
     {
       printf("Oh, oh... you died with a score of %d/%d.\n", snake->tail_size, MAX_TAIL_SIZE);
-      snake_free(snake);
-      food_free(food);
       break;
     }
 
     usleep(1000000 / GAME_FRAMERATE); // Sleep for 1/framerate seconds
   }
 
+  snake_free(snake);
+  food_free(food);
   return 0;
 }
