@@ -5,17 +5,28 @@
 #include "include/food.h"
 #include "include/snake.h"
 
+void _create_tail_piece(struct snake *snake, int x, int y)
+{
+  int *tail_piece = malloc(2 * sizeof(int));
+  tail_piece[0] = x;
+  tail_piece[1] = y;
+  snake->tail[snake->tail_size++] = tail_piece;
+}
+
 struct snake *snake_init(void)
 {
   struct snake *snake = calloc(1, sizeof(struct snake));
-  snake->x = 1;
+  snake->x = TAIL_START_SIZE + 1;
   snake->y = 1;
   snake->xspeed = 1;
   snake->yspeed = 0;
   snake->tail_size = 0;
 
   // n-pairs of [x,y] will be stored
-  snake->tail = malloc((MAX_TAIL_SIZE * 2) * sizeof(int *));
+  snake->tail = malloc((TAIL_MAX_SIZE + TAIL_START_SIZE) * 2 * sizeof(int *));
+
+  for (unsigned int i = 1; i <= TAIL_START_SIZE; i++)
+    _create_tail_piece(snake, i, 1);
 
   return snake;
 }
@@ -23,12 +34,7 @@ struct snake *snake_init(void)
 bool snake_eat(struct snake *snake, struct food *food)
 {
   if (snake->x == food->x && snake->y == food->y) {
-    int *tail_piece = malloc(2 * sizeof(int));
-    tail_piece[0] = snake->x;
-    tail_piece[1] = snake->y;
-
-    snake->tail[snake->tail_size++] = tail_piece;
-
+    _create_tail_piece(snake, snake->x, snake->y);
     return true;
   }
 

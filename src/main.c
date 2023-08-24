@@ -75,7 +75,7 @@ void draw_board(struct snake *snake, struct food *food)
         if (y == 7) printw("  Made by Kim 金可明");
         if (y == 8) printw("  https://github.com/kkoomen/snake");
 
-        if (y == GAME_SIZE - 2) printw("  Score: %d/%d", snake->tail_size, MAX_TAIL_SIZE);
+        if (y == GAME_SIZE - 2) printw("  Score: %d/%d", snake->tail_size - TAIL_START_SIZE, TAIL_MAX_SIZE);
       }
     }
     printw("\n");
@@ -163,7 +163,7 @@ int main(void)
 
     if (snake_eat(snake, food))
     {
-      if (snake->tail_size == MAX_TAIL_SIZE)
+      if (snake->tail_size - TAIL_START_SIZE == TAIL_MAX_SIZE)
       {
         draw_board(snake, food);
         printw("You have completed snake, congratulations!\n");
