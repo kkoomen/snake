@@ -69,13 +69,13 @@ void draw_board(struct snake *snake, struct food *food)
         printf("\u2502"); // vertical borders
       else if ((x == snake->x && y == snake->y)) {
         // snake head marker
-        if (snake->xspeed == 1)
+        if (snake->xspeed == SNAKE_XSPEED)
           printf(">"); // moving right
-        else if (snake->xspeed == -1)
+        else if (snake->xspeed == -SNAKE_XSPEED)
           printf("<"); // moving left
-        else if (snake->yspeed == 1)
+        else if (snake->yspeed == SNAKE_YSPEED)
           printf("v"); // moving down
-        else if (snake->yspeed == -1)
+        else if (snake->yspeed == -SNAKE_YSPEED)
           printf("^"); // moving up
       }
       else if (snake_is_tail_piece(snake, x, y))
@@ -120,26 +120,26 @@ void handle_input(int ch, struct snake *snake)
       case 'A':
         // UP ARROW
         // we can only go up if we're not going down
-        if (snake->yspeed != 1)
-          snake_direction(snake, 0, -1);
+        if (snake->yspeed != SNAKE_YSPEED)
+          snake_direction(snake, 0, -SNAKE_YSPEED);
         break;
       case 'B':
         // DOWN ARROW
         // we can only go down if we're not going up
-        if (snake->yspeed != -1)
-          snake_direction(snake, 0, 1);
+        if (snake->yspeed != -SNAKE_YSPEED)
+          snake_direction(snake, 0, SNAKE_YSPEED);
         break;
       case 'C':
         // RIGHT ARROW
         // we can only go right if we're not going left
-        if (snake->xspeed != -1)
-          snake_direction(snake, 1, 0);
+        if (snake->xspeed != -SNAKE_XSPEED)
+          snake_direction(snake, SNAKE_XSPEED, 0);
         break;
       case 'D':
         // LEFT ARROW
         // we can only go left if we're not going right
-        if (snake->xspeed != 1)
-          snake_direction(snake, -1, 0);
+        if (snake->xspeed != SNAKE_XSPEED)
+          snake_direction(snake, -SNAKE_XSPEED, 0);
         break;
     }
   }
