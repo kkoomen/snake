@@ -9,7 +9,7 @@ struct food
   unsigned int y;
 };
 
-struct food *food_init();
+struct food *food_init(void);
 
 void food_spawn(struct food *food);
 

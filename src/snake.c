@@ -5,7 +5,7 @@
 #include "include/food.h"
 #include "include/snake.h"
 
-struct snake *snake_init()
+struct snake *snake_init(void)
 {
   struct snake *snake = calloc(1, sizeof(struct snake));
   snake->x = 1;

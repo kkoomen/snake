@@ -4,7 +4,7 @@
 #include "include/random.h"
 #include "include/constants.h"
 
-struct food *food_init()
+struct food *food_init(void)
 {
   struct food *food = calloc(1, sizeof(struct food));
   return food;

@@ -107,11 +107,11 @@ void handle_input(int ch, struct snake *snake)
   }
 }
 
-void sigintHandler(int signum) {
+void sigint_handler(int signum __attribute__((unused))) {
   ctrlCPressed = 1;
 }
 
-void setup_ncurses()
+void setup_ncurses(void)
 {
   setlocale(LC_ALL, ""); // Set the locale to allow Unicode characters
   initscr();
@@ -121,7 +121,7 @@ void setup_ncurses()
   keypad(stdscr, TRUE);  // enable function keys
 
   // register sigint handler
-  signal(SIGINT, sigintHandler);
+  signal(SIGINT, sigint_handler);
 
   // enable term colors
   start_color();

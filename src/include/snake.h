@@ -15,7 +15,7 @@ struct snake
   int **tail;
 };
 
-struct snake *snake_init();
+struct snake *snake_init(void);
 
 bool snake_eat(struct snake *snake, struct food *food);
 

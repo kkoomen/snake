@@ -1,13 +1,14 @@
-exec = snake.out
-sources = $(wildcard src/*.c)
-objects = $(sources:.c=.o)
-flags = -Wall -lncurses
+EXEC = snake.out
+SOURCES = $(wildcard src/*.c)
+OBJECTS = $(SOURCES:.c=.o)
+CFLAGS = -Wall -Wextra -pedantic
+LDFLAGS = -lncurses
 
-$(exec): $(objects)
-		gcc $(objects) $(flags) -o $(exec)
+$(EXEC): $(OBJECTS)
+	gcc $(OBJECTS) $(CFLAGS) -o $(EXEC) $(LDFLAGS)
 
 %.o: %.c include/%.h
-	gcc -c $(flags) $< -o $@
+	gcc -c $(CFLAGS) $< -o $@
 
 clean:
 	-rm *.out
