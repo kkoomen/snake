@@ -49,43 +49,53 @@ void *get_input_char_thread(void *arg)
   return NULL;
 }
 
+void draw_filled_square(char *text)
+{
+  printf("\x1B[48;5;15m"); // Set background to white
+  printf("\x1B[38;5;0m");  // Set foreground to black
+  printf("%s", text);
+  printf("\x1B[0m");       // Reset colors
+}
+
 void draw_board(struct snake *snake, struct food *food)
 {
-  for (unsigned int y = 0; y < GAME_HEIGHT; y++)
+  for (unsigned int y = 0; y < GAME_SIZE; y++)
   {
-    for (unsigned int x = 0; x < GAME_WIDTH; x++)
+    for (unsigned int x = 0; x < GAME_SIZE; x++)
     {
       if (x == 0 && y == 0)
-        printf("\u250C"); // top left corner
-      else if (x == GAME_WIDTH - 1 && y == 0)
-        printf("\u2510"); // top right corner
-      else if (x == GAME_WIDTH - 1 && y == GAME_HEIGHT - 1)
-        printf("\u2518"); // bottom right corner
-      else if (x == 0 && y == GAME_HEIGHT - 1)
-        printf("\u2514"); // bottom left corner
-      else if (y == 0 || y == GAME_HEIGHT - 1)
-        printf("\u2500"); // horizontal borders
-      else if (x == 0 || x == GAME_WIDTH - 1)
-        printf("\u2502"); // vertical borders
+        printf(" \u250C"); // top left corner
+      else if (x == GAME_SIZE - 1 && y == 0)
+        printf("\u2510 "); // top right corner
+      else if (x == GAME_SIZE - 1 && y == GAME_SIZE - 1)
+        printf("\u2518 "); // bottom right corner
+      else if (x == 0 && y == GAME_SIZE - 1)
+        printf(" \u2514"); // bottom left corner
+      else if (y == 0 || y == GAME_SIZE - 1)
+        printf("\u2500\u2500\u2500"); // horizontal borders
+      else if (x == 0)
+        printf(" \u2502"); // vertical borders left side
+      else if (x == GAME_SIZE - 1)
+        printf("\u2502 "); // vertical borders right side
       else if ((x == snake->x && y == snake->y)) {
         // snake head marker
         if (snake->xspeed == SNAKE_XSPEED)
-          printf(">"); // moving right
+          draw_filled_square(" \u2022 "); // moving right
         else if (snake->xspeed == -SNAKE_XSPEED)
-          printf("<"); // moving left
+          draw_filled_square(" \u2022 "); // moving left
         else if (snake->yspeed == SNAKE_YSPEED)
-          printf("v"); // moving down
+          draw_filled_square("\u2022 \u2022"); // moving down
         else if (snake->yspeed == -SNAKE_YSPEED)
-          printf("^"); // moving up
+          draw_filled_square("\u2022 \u2022"); // moving up
       }
       else if (snake_is_tail_piece(snake, x, y))
-        printf("\u2022"); // snake tail marker
+        draw_filled_square("   "); // snake tail marker
       else if (x == food->x && y == food->y)
-        printf("\033[31m\u2022\033[0m"); // food marker
+        printf(" \u2022 "); // food marker
       else
-        printf(" "); // print spaces for alignment
+        printf("   "); // print spaces for alignment
 
-      if (x == GAME_WIDTH - 1) {
+      if (x == GAME_SIZE - 1) {
         if (y == 1)
           printf("  ███████ ███    ██  █████  ██   ██ ███████ ");
         if (y == 2)
@@ -101,7 +111,7 @@ void draw_board(struct snake *snake, struct food *food)
         if (y == 8)
           printf("  https://github.com/kkoomen/snake");
 
-        if (y == GAME_HEIGHT - 2)
+        if (y == GAME_SIZE - 2)
           printf("  Score: %d/%d", snake->tail_size, MAX_TAIL_SIZE);
       }
 

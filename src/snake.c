@@ -49,14 +49,14 @@ void snake_move(struct snake *snake) {
   snake->y = snake->y + snake->yspeed;
 
   // If the edges are reached, come out of the other side
-  if (snake->x == GAME_WIDTH - 1)
+  if (snake->x == GAME_SIZE - 1)
     snake->x = 1;
   else if (snake->x == 0)
-    snake->x = GAME_WIDTH - 2;
-  else if (snake->y == GAME_HEIGHT - 1)
+    snake->x = GAME_SIZE - 2;
+  else if (snake->y == GAME_SIZE - 1)
     snake->y = 1;
   else if (snake->y == 0)
-    snake->y = GAME_HEIGHT - 2;
+    snake->y = GAME_SIZE - 2;
 }
 
 bool snake_is_tail_piece(struct snake *snake, int x, int y) {

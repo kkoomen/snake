@@ -13,8 +13,8 @@ struct food *food_init()
 
 void food_spawn(struct food *food)
 {
-  food->x = random_number_between(1, GAME_WIDTH - 1);
-  food->y = random_number_between(1, GAME_HEIGHT - 1);
+  food->x = random_number_between(1, GAME_SIZE - 1);
+  food->y = random_number_between(1, GAME_SIZE - 1);
 }
 
 void food_free(struct food *food)
