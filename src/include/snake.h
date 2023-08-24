@@ -20,11 +20,11 @@ bool snake_eat(struct snake *snake, struct food *food);
 
 void snake_move(struct snake *snake);
 
-bool snake_is_tail_piece(struct snake *snake, int x, int y);
+bool snake_is_tail_piece(const struct snake *snake, int x, int y);
 
 void snake_direction(struct snake *snake, int xspeed, int yspeed);
 
-bool snake_overlaps_itself(struct snake *snake);
+bool snake_overlaps_itself(const struct snake *snake);
 
 void snake_free(struct snake *snake);
 

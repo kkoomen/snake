@@ -66,7 +66,7 @@ void snake_move(struct snake *snake) {
     snake->y = GAME_SIZE - 2;
 }
 
-bool snake_is_tail_piece(struct snake *snake, int x, int y) {
+bool snake_is_tail_piece(const struct snake *snake, int x, int y) {
   for (unsigned int i = 0; i < snake->tail_size; i++) {
     if (snake->tail[i][0] == x && snake->tail[i][1] == y)
       return true;
@@ -80,7 +80,7 @@ void snake_direction(struct snake *snake, int xspeed, int yspeed) {
   snake->yspeed = yspeed;
 }
 
-bool snake_overlaps_itself(struct snake *snake) {
+bool snake_overlaps_itself(const struct snake *snake) {
   return snake_is_tail_piece(snake, snake->x, snake->y);
 }
 

@@ -9,7 +9,7 @@
 
 volatile sig_atomic_t ctrl_c_pressed = 0;
 
-void draw_board(struct snake *snake, struct food *food)
+void draw_board(const struct snake *snake, const struct food *food)
 {
   clear();
 
@@ -132,7 +132,7 @@ void setup_ncurses(void)
   init_pair(1, COLOR_BLACK, COLOR_WHITE);
 }
 
-void create_food(struct food *food, struct snake *snake)
+void create_food(struct food *food, const struct snake *snake)
 {
   food_spawn(food);
 
