@@ -1,4 +1,4 @@
-![demo](snake-demo.gif?)
+![demo](demo-snake.gif?)
 
 # Snake
 
