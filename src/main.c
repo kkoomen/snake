@@ -7,7 +7,7 @@
 #include "include/food.h"
 #include "include/snake.h"
 
-volatile sig_atomic_t ctrlCPressed = 0;
+volatile sig_atomic_t ctrl_c_pressed = 0;
 
 void draw_board(struct snake *snake, struct food *food)
 {
@@ -108,7 +108,7 @@ void handle_input(int ch, struct snake *snake)
 }
 
 void sigint_handler(int signum __attribute__((unused))) {
-  ctrlCPressed = 1;
+  ctrl_c_pressed = 1;
 }
 
 void setup_ncurses(void)
@@ -154,7 +154,7 @@ int main(void)
     if (ch != ERR)
       handle_input(ch, snake);
 
-    if (ctrlCPressed) break;
+    if (ctrl_c_pressed) break;
 
     draw_board(snake, food);
 
@@ -182,7 +182,7 @@ int main(void)
     refresh();
   }
 
-  if (!ctrlCPressed)
+  if (!ctrl_c_pressed)
   {
     printw("Press 'q' to quit\n");
     nodelay(stdscr, FALSE);
