@@ -152,7 +152,8 @@ int main(void)
 
   create_food(food, snake);
 
-  while (1) {
+  while (1)
+  {
     int ch = getch();
     if (ch != ERR)
       handle_input(ch, snake);

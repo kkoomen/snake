@@ -33,7 +33,8 @@ struct snake *snake_init(void)
 
 bool snake_eat(struct snake *snake, struct food *food)
 {
-  if (snake->x == food->x && snake->y == food->y) {
+  if (snake->x == food->x && snake->y == food->y)
+  {
     _create_tail_piece(snake, snake->x, snake->y);
     return true;
   }
@@ -41,9 +42,12 @@ bool snake_eat(struct snake *snake, struct food *food)
   return false;
 }
 
-void snake_move(struct snake *snake) {
-  if (snake->tail_size > 0) {
-    for (unsigned int i = 0; i < snake->tail_size - 1; i++) {
+void snake_move(struct snake *snake)
+{
+  if (snake->tail_size > 0)
+  {
+    for (unsigned int i = 0; i < snake->tail_size - 1; i++)
+    {
       snake->tail[i][0] = snake->tail[i + 1][0];
       snake->tail[i][1] = snake->tail[i + 1][1];
     }
@@ -66,8 +70,10 @@ void snake_move(struct snake *snake) {
     snake->y = GAME_SIZE - 2;
 }
 
-bool snake_is_tail_piece(const struct snake *snake, int x, int y) {
-  for (unsigned int i = 0; i < snake->tail_size; i++) {
+bool snake_is_tail_piece(const struct snake *snake, int x, int y)
+{
+  for (unsigned int i = 0; i < snake->tail_size; i++)
+  {
     if (snake->tail[i][0] == x && snake->tail[i][1] == y)
       return true;
   }
@@ -75,16 +81,19 @@ bool snake_is_tail_piece(const struct snake *snake, int x, int y) {
   return false;
 }
 
-void snake_direction(struct snake *snake, int xspeed, int yspeed) {
+void snake_direction(struct snake *snake, int xspeed, int yspeed)
+{
   snake->xspeed = xspeed;
   snake->yspeed = yspeed;
 }
 
-bool snake_overlaps_itself(const struct snake *snake) {
+bool snake_overlaps_itself(const struct snake *snake)
+{
   return snake_is_tail_piece(snake, snake->x, snake->y);
 }
 
-void snake_free(struct snake *snake) {
+void snake_free(struct snake *snake)
+{
   for (unsigned int i = 0; i < snake->tail_size; i++)
     free(snake->tail[i]);
 
