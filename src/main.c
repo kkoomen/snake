@@ -64,7 +64,9 @@ void draw_board(struct snake *snake, struct food *food)
       else
         printw("   "); // print spaces for alignment
 
-      if (x == GAME_SIZE - 1) {
+      // print additional info
+      if (x == GAME_SIZE - 1)
+      {
         if (y == 1) printw("  ███████ ███    ██  █████  ██   ██ ███████ ");
         if (y == 2) printw("  ██      ████   ██ ██   ██ ██  ██  ██      ");
         if (y == 3) printw("  ███████ ██ ██  ██ ███████ █████   █████   ");
@@ -107,7 +109,8 @@ void handle_input(int ch, struct snake *snake)
   }
 }
 
-void sigint_handler(int signum __attribute__((unused))) {
+void sigint_handler(int signum __attribute__((unused)))
+{
   ctrl_c_pressed = 1;
 }
 
