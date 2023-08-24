@@ -2,13 +2,13 @@
 
 # Snake
 
-The classic SNAKE game implemented in C.
+The classic SNAKE game that can be played in your terminal.
 
 # Getting Started
 
-- `$ git clone https://github.com/kkoomen/snake.git && cd snake`
-- `$ make`
-- `$ sudo make install`
+- `git clone https://github.com/kkoomen/snake.git && cd snake`
+- `make`
+- `sudo make install`
 
 Then simply run `snake` in your terminal and enjoy!
 
