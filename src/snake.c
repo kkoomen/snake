@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "include/constants.h"
+#include "include/food.h"
 #include "include/snake.h"
 
 struct snake *snake_init()
@@ -14,7 +15,7 @@ struct snake *snake_init()
   snake->tail_size = 0;
 
   // n-pairs of [x,y] will be stored
-  snake->tail = (int **)malloc((MAX_TAIL_SIZE * 2) * sizeof(int *));
+  snake->tail = malloc((MAX_TAIL_SIZE * 2) * sizeof(int *));
 
   return snake;
 }
@@ -22,7 +23,7 @@ struct snake *snake_init()
 bool snake_eat(struct snake *snake, struct food *food)
 {
   if (snake->x == food->x && snake->y == food->y) {
-    int *tail_piece = (int *)malloc(2 * sizeof(int));
+    int *tail_piece = malloc(2 * sizeof(int));
     tail_piece[0] = snake->x;
     tail_piece[1] = snake->y;
 

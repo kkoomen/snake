@@ -18,3 +18,5 @@ If you want to uninstall the game, simply run `sudo make uninstall`
 
 Use the arrow keys :arrow_left: :arrow_up: :arrow_down: :arrow_right: to
 navigate through the game.
+
+Use <kbd>CTRL</kbd> + <kbd>c</kbd> to force quit the game.

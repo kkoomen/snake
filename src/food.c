@@ -7,7 +7,6 @@
 struct food *food_init()
 {
   struct food *food = calloc(1, sizeof(struct food));
-  food_spawn(food);
   return food;
 }
 

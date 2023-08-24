@@ -1,200 +1,200 @@
+#include <ncurses.h>
+#include <locale.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <termios.h>
-#include <pthread.h>
 
-#include "include/snake.h"
-#include "include/food.h"
 #include "include/constants.h"
+#include "include/food.h"
+#include "include/snake.h"
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
-int input_char = -1;
-
-void disable_buffering()
-{
-  struct termios term;
-  tcgetattr(STDIN_FILENO, &term);
-  term.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
-
-void enable_buffering()
-{
-  struct termios term;
-  tcgetattr(STDIN_FILENO, &term);
-  term.c_lflag |= ICANON | ECHO;
-  tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
-
-void term_clear()
-{
-  printf("\033[2J");
-  printf("\033[%d;%dH", 0, 0);
-}
-
-void *get_input_char_thread(void *arg)
-{
-  disable_buffering();
-
-  int ch;
-  while ((ch = getchar()))
-  {
-    pthread_mutex_lock(&mutex);
-    input_char = ch;
-    pthread_mutex_unlock(&mutex);
-  }
-
-  enable_buffering();
-  return NULL;
-}
-
-void draw_filled_square(char *text)
-{
-  printf("\x1B[48;5;15m"); // set background to white
-  printf("\x1B[38;5;0m");  // set foreground to black
-  printf("%s", text);
-  printf("\x1B[0m");       // reset colors
-}
+volatile sig_atomic_t ctrlCPressed = 0;
 
 void draw_board(struct snake *snake, struct food *food)
 {
+  clear();
+
   for (unsigned int y = 0; y < GAME_SIZE; y++)
   {
     for (unsigned int x = 0; x < GAME_SIZE; x++)
     {
       if (x == 0 && y == 0)
-        printf(" \u250C"); // top left corner
+        printw(" \u250C"); // top left corner
       else if (x == GAME_SIZE - 1 && y == 0)
-        printf("\u2510 "); // top right corner
+        printw("\u2510 "); // top right corner
       else if (x == GAME_SIZE - 1 && y == GAME_SIZE - 1)
-        printf("\u2518 "); // bottom right corner
+        printw("\u2518 "); // bottom right corner
       else if (x == 0 && y == GAME_SIZE - 1)
-        printf(" \u2514"); // bottom left corner
+        printw(" \u2514"); // bottom left corner
       else if (y == 0 || y == GAME_SIZE - 1)
-        printf("\u2500\u2500\u2500"); // horizontal borders
+        printw("\u2500\u2500\u2500"); // horizontal borders
       else if (x == 0)
-        printf(" \u2502"); // vertical borders left side
+        printw(" \u2502"); // vertical borders left side
       else if (x == GAME_SIZE - 1)
-        printf("\u2502 "); // vertical borders right side
-      else if ((x == snake->x && y == snake->y)) {
+        printw("\u2502 "); // vertical borders right side
+      else if ((x == snake->x && y == snake->y))
+      {
         // snake head marker
-        if (snake->xspeed == SNAKE_XSPEED)
-          draw_filled_square(" \u2022 "); // moving right
-        else if (snake->xspeed == -SNAKE_XSPEED)
-          draw_filled_square(" \u2022 "); // moving left
-        else if (snake->yspeed == SNAKE_YSPEED)
-          draw_filled_square("\u2022 \u2022"); // moving down
-        else if (snake->yspeed == -SNAKE_YSPEED)
-          draw_filled_square("\u2022 \u2022"); // moving up
+        if (snake->xspeed != 0)
+        {
+          // moving left or right
+          attron(COLOR_PAIR(1));
+          printw(" ");
+          printw("\u2022");
+          printw(" ");
+          attroff(COLOR_PAIR(1));
+        }
+        else if (snake->yspeed != 0)
+        {
+          // moving up or down
+          attron(COLOR_PAIR(1));
+          printw("\u2022");
+          printw(" ");
+          printw("\u2022");
+          attroff(COLOR_PAIR(1));
+        }
       }
       else if (snake_is_tail_piece(snake, x, y))
-        draw_filled_square("   "); // snake tail marker
+      {
+        attron(COLOR_PAIR(1));
+        printw("   ");
+        attroff(COLOR_PAIR(1));
+      }
       else if (x == food->x && y == food->y)
-        printf(" \u2022 "); // food marker
+        printw(" \u2022 "); // food marker
       else
-        printf("   "); // print spaces for alignment
+        printw("   "); // print spaces for alignment
 
       if (x == GAME_SIZE - 1) {
-        if (y == 1)
-          printf("  ███████ ███    ██  █████  ██   ██ ███████ ");
-        if (y == 2)
-          printf("  ██      ████   ██ ██   ██ ██  ██  ██      ");
-        if (y == 3)
-          printf("  ███████ ██ ██  ██ ███████ █████   █████   ");
-        if (y == 4)
-          printf("       ██ ██  ██ ██ ██   ██ ██  ██  ██      ");
-        if (y == 5)
-          printf("  ███████ ██   ████ ██   ██ ██   ██ ███████ ");
-        if (y == 7)
-          printf("  Made by Kim 金可明");
-        if (y == 8)
-          printf("  https://github.com/kkoomen/snake");
+        if (y == 1) printw("  ███████ ███    ██  █████  ██   ██ ███████ ");
+        if (y == 2) printw("  ██      ████   ██ ██   ██ ██  ██  ██      ");
+        if (y == 3) printw("  ███████ ██ ██  ██ ███████ █████   █████   ");
+        if (y == 4) printw("       ██ ██  ██ ██ ██   ██ ██  ██  ██      ");
+        if (y == 5) printw("  ███████ ██   ████ ██   ██ ██   ██ ███████ ");
+        if (y == 7) printw("  Made by Kim 金可明");
+        if (y == 8) printw("  https://github.com/kkoomen/snake");
 
-        if (y == GAME_SIZE - 2)
-          printf("  Score: %d/%d", snake->tail_size, MAX_TAIL_SIZE);
+        if (y == GAME_SIZE - 2) printw("  Score: %d/%d", snake->tail_size, MAX_TAIL_SIZE);
       }
-
     }
-    // print newline for each row
-    printf("\n");
+    printw("\n");
   }
 }
 
 void handle_input(int ch, struct snake *snake)
 {
-  if (ch != -1)
+  switch (ch)
   {
-    switch (ch)
-    {
-      case 'A':
-        // UP ARROW
-        // we can only go up if we're not going down
-        if (snake->yspeed != SNAKE_YSPEED)
-          snake_direction(snake, 0, -SNAKE_YSPEED);
-        break;
-      case 'B':
-        // DOWN ARROW
-        // we can only go down if we're not going up
-        if (snake->yspeed != -SNAKE_YSPEED)
-          snake_direction(snake, 0, SNAKE_YSPEED);
-        break;
-      case 'C':
-        // RIGHT ARROW
-        // we can only go right if we're not going left
-        if (snake->xspeed != -SNAKE_XSPEED)
-          snake_direction(snake, SNAKE_XSPEED, 0);
-        break;
-      case 'D':
-        // LEFT ARROW
-        // we can only go left if we're not going right
-        if (snake->xspeed != SNAKE_XSPEED)
-          snake_direction(snake, -SNAKE_XSPEED, 0);
-        break;
-    }
+    case KEY_UP:
+      // we can only go up if we're not going down
+      if (snake->yspeed != SNAKE_YSPEED)
+        snake_direction(snake, 0, -SNAKE_YSPEED);
+      break;
+    case KEY_DOWN:
+      // we can only go down if we're not going up
+      if (snake->yspeed != -SNAKE_YSPEED)
+        snake_direction(snake, 0, SNAKE_YSPEED);
+      break;
+    case KEY_RIGHT:
+      // we can only go right if we're not going left
+      if (snake->xspeed != -SNAKE_XSPEED)
+        snake_direction(snake, SNAKE_XSPEED, 0);
+      break;
+    case KEY_LEFT:
+      // we can only go left if we're not going right
+      if (snake->xspeed != SNAKE_XSPEED)
+        snake_direction(snake, -SNAKE_XSPEED, 0);
+      break;
   }
+}
+
+void sigintHandler(int signum) {
+  ctrlCPressed = 1;
+}
+
+void setup_ncurses()
+{
+  setlocale(LC_ALL, ""); // Set the locale to allow Unicode characters
+  initscr();
+  cbreak();              // disable line buffering
+  noecho();              // don't echo user input
+  nodelay(stdscr, TRUE); // make getch() non-blocking
+  keypad(stdscr, TRUE);  // enable function keys
+
+  // register sigint handler
+  signal(SIGINT, sigintHandler);
+
+  // enable term colors
+  start_color();
+  use_default_colors();
+  init_pair(1, COLOR_BLACK, COLOR_WHITE);
+}
+
+void create_food(struct food *food, struct snake *snake)
+{
+  food_spawn(food);
+
+  while (
+    (food->x == snake->x && food->y == snake->y) ||
+    snake_is_tail_piece(snake, food->x, food->y)
+  ) food_spawn(food);
 }
 
 int main(void)
 {
   struct snake *snake = snake_init();
   struct food *food = food_init();
+  useconds_t frame_delay = 1000000 / GAME_FRAMERATE;
 
-  pthread_t thread;
-  pthread_create(&thread, NULL, get_input_char_thread, NULL);
+  setup_ncurses();
 
-  int frameCount = 0;
-  while (1)
-  {
-    term_clear();
+  create_food(food, snake);
+
+  while (1) {
+    int ch = getch();
+    if (ch != ERR)
+      handle_input(ch, snake);
+
+    if (ctrlCPressed) break;
 
     draw_board(snake, food);
 
-    if (snake->tail_size == MAX_TAIL_SIZE)
-    {
-      printf("You have completed snake, congratulations!\n");
-      break;
-    }
-
-    pthread_mutex_lock(&mutex);
-    int ch = input_char;
-    input_char = -1;
-    pthread_mutex_unlock(&mutex);
-    handle_input(ch, snake);
-
     if (snake_eat(snake, food))
-      food_spawn(food);
+    {
+      if (snake->tail_size == MAX_TAIL_SIZE)
+      {
+        draw_board(snake, food);
+        printw("You have completed snake, congratulations!\n");
+        break;
+      }
+
+      create_food(food, snake);
+    }
 
     snake_move(snake);
 
     if (snake_overlaps_itself(snake))
     {
-      printf("Oh, oh... you died with a score of %d/%d.\n", snake->tail_size, MAX_TAIL_SIZE);
+      printw("Oh, oh... you died!\n");
       break;
     }
 
-    usleep(1000000 / GAME_FRAMERATE);
+    usleep(frame_delay);
+    refresh();
   }
+
+  if (!ctrlCPressed)
+  {
+    printw("Press 'q' to quit\n");
+    nodelay(stdscr, FALSE);
+    while (1)
+    {
+      int ch = getch();
+      if (ch == 'q' || ch == ERR)
+        break;
+    }
+    endwin();
+  }
+  else endwin();
 
   snake_free(snake);
   food_free(food);

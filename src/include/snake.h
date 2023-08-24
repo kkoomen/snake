@@ -1,10 +1,9 @@
+#ifndef SNAKE_H
+#define SNAKE_H
+
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include "food.h"
-
-#ifndef SNAKE_H
-#define SNAKE_H
 
 struct snake
 {
