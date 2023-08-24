@@ -51,10 +51,10 @@ void *get_input_char_thread(void *arg)
 
 void draw_filled_square(char *text)
 {
-  printf("\x1B[48;5;15m"); // Set background to white
-  printf("\x1B[38;5;0m");  // Set foreground to black
+  printf("\x1B[48;5;15m"); // set background to white
+  printf("\x1B[38;5;0m");  // set foreground to black
   printf("%s", text);
-  printf("\x1B[0m");       // Reset colors
+  printf("\x1B[0m");       // reset colors
 }
 
 void draw_board(struct snake *snake, struct food *food)
@@ -193,7 +193,7 @@ int main(void)
       break;
     }
 
-    usleep(1000000 / GAME_FRAMERATE); // Sleep for 1/framerate seconds
+    usleep(1000000 / GAME_FRAMERATE);
   }
 
   snake_free(snake);
